@@ -1,27 +1,19 @@
 import java.nio.file.Path;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class ConsoleInterface {
-    private final Scanner console = new Scanner(System.in);
 
     public void start() {
         int numberChoice;
         while (true) {
-            System.out.println("Язык русский\nОсновное меню:");
-            System.out.println("(1) - Зашифровать текст\n(2) - Расшифровать текст\n(3) - Подбор BruteForce\n(4) - Выйти");
-            try {
-                numberChoice = console.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("\nНекорректный ввод\n");
-                console.next();
-                continue;
-            }
+            String headText = "Язык текста (" + ALPHABET.getLanguageName() + ")\nОсновное меню:\n" + "(1) - Зашифровать текст\n" +
+                    "(2) - Расшифровать текст\n(3) - Подбор BruteForce\n(4) - Выбрать язык текста\n(5) - Выйти";
+            numberChoice = ValidateGetting.getValidNum(headText);
             switch (numberChoice) {
-                case 1 -> openEncryptionMenu();
-                case 2-> openDecryptionMenu();
-                case 3-> openBruteForceMenu();
-                case 4 -> {
+                case 1 -> openCipherMenu(ModeRWFile.ENCRYPT);
+                case 2 -> openCipherMenu(ModeRWFile.DECRYPT);
+                case 3 -> openCipherMenu(ModeRWFile.BRUTE_FORCE);
+                case 4 -> openMenuSetLanguage();
+                case 5 -> {
                     System.out.println("Завершение...");
                     System.exit(0);
                 }
@@ -30,122 +22,56 @@ public class ConsoleInterface {
         }
     }
 
-    private void openEncryptionMenu() {
-        console.nextLine();
-        Path inPath;
-        Path outPath;
-        int key;
-        while (true){
-            System.out.println("Encryption:\nНапиши ключ");
-            try {
-                key = console.nextInt();
-                break;
-            }catch (InputMismatchException e){
-                System.out.println("Некорректный ключ");
-
-            }finally {
-                console.nextLine();
-            }
-        }
+    private void openMenuSetLanguage() {
+        int numberChoice;
+        String headText = "Выберите язык:\n(1) - Русский\n(2) - Английский\n(3) - Украинский\n(4) - Вернуться в основное меню";
         while (true) {
-            System.out.print("Encryption:\nНапишите путь к файлу:");
-            String strInPath = console.nextLine();
-            if(PathValidate.isInputFileOk(strInPath)){
-                inPath = Path.of(strInPath);
-                break;
+            numberChoice = ValidateGetting.getValidNum(headText);
+            switch (numberChoice) {
+                case 1 -> {
+                    ALPHABET.setBasicAlphabet(ALPHABET.RUSSIAN);
+                    return;
+                }
+                case 2 -> {
+                    ALPHABET.setBasicAlphabet(ALPHABET.ENGLISH);
+                    return;
+                }
+                case 3 -> {
+                    ALPHABET.setBasicAlphabet(ALPHABET.UKRAINIAN);
+                    return;
+                }
+                case 4 -> {
+                    return;
+                }
+                default -> System.out.println("\nНет такой команды\n");
             }
-
         }
-        while (true) {
-            System.out.print("Encryption:\nНапишите директорию куда сохранить зашифрованный файл:");
-            String strOutDir = console.nextLine();
-            if(PathValidate.isOutDIROk(strOutDir)){
-                outPath = Path.of(strOutDir);
-                break;
-            }
-        }
-        System.out.println();
-        //TODO вызов метода для зашифровки
-        RWFile rwFile = new RWFile();
-        rwFile.startRWFileEncrypt(inPath,outPath,key);
-
-
     }
-    private  void openDecryptionMenu(){
-        console.nextLine();
-        Path inPath;
-        Path outPath;
-        int key;
-        while (true){
-            System.out.println("Decryption:\nНапиши ключ");
-            try {
-                key = console.nextInt();
-                break;
-            }catch (InputMismatchException e){
-                System.out.println("Некорректный ключ");
 
-            }finally {
-                console.nextLine();
-            }
+    private void openCipherMenu(ModeRWFile mode) {
+        String modeName = "";
+        switch (mode) {
+            case ENCRYPT -> modeName = "Encryption:";
+            case DECRYPT -> modeName = "Decryption:";
+            case BRUTE_FORCE -> modeName = "BruteForce:";
         }
-        while (true) {
-            System.out.print("Decryption:\nНапишите путь к зашифрованному файлу:");
-            String strInPath = console.nextLine();
-            if(PathValidate.isInputFileOk(strInPath)){
-                inPath = Path.of(strInPath);
-                break;
-            }
-
+        int key = 0;
+        if (mode != ModeRWFile.BRUTE_FORCE) {
+            key = ValidateGetting.getValidKey(modeName);
         }
-        while (true) {
-            System.out.print("Decryption:\nдиректорию куда сохранить расшифрованный файл:");
-            String strOutDir = console.nextLine();
-            if(PathValidate.isOutDIROk(strOutDir)){
-                outPath = Path.of(strOutDir);
-                break;
-            }
-        }
+        Path inPath = ValidateGetting.getPathInValidFile(modeName);
+        Path outPath = ValidateGetting.getPathValidDir(modeName);
         RWFile rwFile = new RWFile();
-        rwFile.startRWFileDecrypt(inPath,outPath,key);
+        rwFile.startCipherRWFile(inPath, outPath, key, mode);
+    }
 
-    }
-    private void openBruteForceMenu(){
-        console.nextLine();
-        Path inPath;
-        Path outPath;
+    public boolean openMenuGetUserApproval() {
+        int choiceNum;
+        String headText = "\nЭто часть похоже на расшифрованный текст ?\n(1) - Да\n(2) - Нет";
         while (true) {
-            System.out.print("BruteForce:\nНапишите путь к зашифрованному файлу:");
-            String strInPath = console.nextLine();
-            if(PathValidate.isInputFileOk(strInPath)){
-                inPath = Path.of(strInPath);
-                break;
-            }
-        }
-        while (true) {
-            System.out.print("BruteForce:\nНапишите директорию куда сохранить расшифрованный файл:");
-            String strOutDir = console.nextLine();
-            if(PathValidate.isOutDIROk(strOutDir)){
-                outPath = Path.of(strOutDir);
-                break;
-            }
-        }
-        RWFile rwFile = new RWFile();
-        rwFile.startRWFileBruteForce(inPath,outPath);
-    }
-    public  boolean openMenuGetUserApproval() {
-        while (true) {
-            System.out.println("Это часть похоже на расшифрованный текст ?\n(1) - Да\n(2) - Нет");
-            int choiceNum;
-            try {
-                choiceNum = console.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Некорректный ввод");
-                console.nextLine();
-                continue;
-            }
+            choiceNum = ValidateGetting.getValidNum(headText);
             switch (choiceNum) {
                 case 1 -> {
-                    console.nextLine();
                     return true;
                 }
                 case 2 -> {

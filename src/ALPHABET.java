@@ -1,7 +1,33 @@
-public class ALPHABET {
-    public static final String BASIC = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\":-!? ";
-    //TODO: сделать смену языка
-//    public static final String RusAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\":-!? ";
-//    public static final String EngAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,\"\":-!? ";
-//    public static final String UkrAlphabet = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя.,\"\":-!? ";
+public enum ALPHABET {
+    RUSSIAN,
+    ENGLISH,
+    UKRAINIAN;
+    private static String languageName = "Русский";
+    private static String basicAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\":-!? ";
+
+
+    public static String getBasicAlphabet() {
+        return basicAlphabet;
+    }
+
+    public static String getLanguageName() {
+        return languageName;
+    }
+
+    public static void setBasicAlphabet(ALPHABET language) {
+        switch (language) {
+            case ENGLISH -> {
+                languageName = "Английский";
+                basicAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,\":-!? ";
+            }
+            case UKRAINIAN -> {
+                languageName = "Украинский";
+                basicAlphabet = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя.,\":-!? ";
+            }
+            case RUSSIAN -> {
+                languageName = "Русский";
+                basicAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\":-!? ";
+            }
+        }
+    }
 }

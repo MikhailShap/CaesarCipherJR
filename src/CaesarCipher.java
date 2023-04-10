@@ -3,13 +3,13 @@ public class CaesarCipher {
         StringBuilder encodeText = new StringBuilder();
 
         for (char symbol : text.toCharArray()) {
-            int indexInAlphabet = ALPHABET.BASIC.indexOf(symbol);
+            int indexInAlphabet = ALPHABET.getBasicAlphabet().indexOf(symbol);
 
             if (indexInAlphabet == -1) {
                 encodeText.append(symbol);
             } else {
-                int encodeIndex = (indexInAlphabet + key) % ALPHABET.BASIC.length();
-                char encodeSymbol = ALPHABET.BASIC.charAt(encodeIndex);
+                int encodeIndex = (indexInAlphabet + key) % ALPHABET.getBasicAlphabet().length();
+                char encodeSymbol = ALPHABET.getBasicAlphabet().charAt(encodeIndex);
                 encodeText.append(encodeSymbol);
             }
         }
@@ -19,16 +19,16 @@ public class CaesarCipher {
         StringBuilder deCodeText = new StringBuilder();
 
         for (char symbol : encodeText.toCharArray()) {
-            int indexInAlphabet = ALPHABET.BASIC.indexOf(symbol);
+            int indexInAlphabet = ALPHABET.getBasicAlphabet().indexOf(symbol);
 
             if (indexInAlphabet == -1) {
                 deCodeText.append(symbol);
             } else {
-                int deCodeIndex = (indexInAlphabet - key) % ALPHABET.BASIC.length();
+                int deCodeIndex = (indexInAlphabet - key) % ALPHABET.getBasicAlphabet().length();
                 if (deCodeIndex < 0) {
-                    deCodeIndex += ALPHABET.BASIC.length();
+                    deCodeIndex += ALPHABET.getBasicAlphabet().length();
                 }
-                deCodeText.append(ALPHABET.BASIC.charAt(deCodeIndex));
+                deCodeText.append(ALPHABET.getBasicAlphabet().charAt(deCodeIndex));
             }
         }
 
