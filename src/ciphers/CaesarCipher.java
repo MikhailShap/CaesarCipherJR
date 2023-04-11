@@ -1,3 +1,7 @@
+package ciphers;
+
+import utils.ALPHABET;
+
 public class CaesarCipher {
     public static String enCode(String text, int key) {
         StringBuilder encodeText = new StringBuilder();

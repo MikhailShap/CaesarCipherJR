@@ -1,3 +1,8 @@
+package utils;
+
+import ciphers.BruteForce;
+import ciphers.CaesarCipher;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,7 +17,7 @@ public class RWFile {
             return;
         }
         if (originalText.length() == 0) {
-            System.out.println("Файл пустой");
+            System.out.println("\nФайл пустой\n");
             return;
         }
         String resultText = null;
@@ -29,9 +34,6 @@ public class RWFile {
                 outPath = outPath.resolve("Decryption_BF_" + inPath.getFileName());
                 resultText = BruteForce.goBruteForce(originalText);
             }
-        }
-        if(resultText == null){
-            return;
         }
         writeFile(outPath, resultText);
     }

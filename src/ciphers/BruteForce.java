@@ -1,4 +1,6 @@
-import java.util.InputMismatchException;
+package ciphers;
+
+import console.ConsoleInterface;
 
 public class BruteForce {
     public static String goBruteForce(String encryptFullText){
@@ -14,7 +16,8 @@ public class BruteForce {
                 if (optionDecodeText.charAt(i) == '.') {
                     counterPoint++;
                 }
-                if (optionDecodeText.charAt(i) == '.' && (optionDecodeText.charAt(i + 1) == ' ' || optionDecodeText.charAt(i + 1) == '\n' || optionDecodeText.charAt(i + 1) == ']')) {
+                if (optionDecodeText.charAt(i) == '.' && (optionDecodeText.charAt(i + 1) == ' ' || optionDecodeText.charAt(i + 1) == '\n'
+                        || optionDecodeText.charAt(i + 1) == ']'|| optionDecodeText.charAt(i + 1) == ')')) {
                     spaceCounterAfterDot++;
                 }
             }

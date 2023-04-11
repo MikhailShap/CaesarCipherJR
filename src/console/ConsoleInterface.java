@@ -1,3 +1,9 @@
+package console;
+
+import utils.ALPHABET;
+import utils.ModeRWFile;
+import utils.RWFile;
+
 import java.nio.file.Path;
 
 public class ConsoleInterface {
@@ -53,7 +59,10 @@ public class ConsoleInterface {
         switch (mode) {
             case ENCRYPT -> modeName = "Encryption:";
             case DECRYPT -> modeName = "Decryption:";
-            case BRUTE_FORCE -> modeName = "BruteForce:";
+            case BRUTE_FORCE -> {
+                System.out.println("Оригинальный текст должен содержать хотябы одно предложение");
+                modeName = "BruteForce:";
+            }
         }
         int key = 0;
         if (mode != ModeRWFile.BRUTE_FORCE) {
@@ -78,7 +87,7 @@ public class ConsoleInterface {
                     System.out.println("Продолжаем подбор...\n");
                     return false;
                 }
-                default -> System.out.println("Неизвестная команда");
+                default -> System.out.println("\nНеизвестная команда\n");
             }
         }
     }

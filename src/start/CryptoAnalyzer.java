@@ -1,3 +1,7 @@
+package start;
+
+import console.ConsoleInterface;
+
 public class CryptoAnalyzer {
     public static void main(String[] args) {
     ConsoleInterface consoleInterface = new ConsoleInterface();
